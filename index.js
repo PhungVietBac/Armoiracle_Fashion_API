@@ -21,7 +21,7 @@ app.use("/answers", answerRoutes);
 app.use("/clothes", clothesRoutes);
 app.use("/clothes_style", clothesStyleRoutes);
 
-const port = 8000;
+const port = process.env.PORT || 4000;
 app.listen(port, () => {
   console.log(`API running at http://localhost:${port}`);
   console.log(`Docs available at http://localhost:${port}/api-docs`);
