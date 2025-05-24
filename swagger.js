@@ -5,9 +5,14 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "User API with Supabase",
+      title: "Fashion App API with Supabase",
       version: "1.0.0",
     },
+    servers: [
+      {
+        url: "http://localhost:8000", // Đường dẫn đến API
+      },
+    ],
   },
   apis: ["./routes/*.js"], // Đọc mô tả API từ file route
 };
