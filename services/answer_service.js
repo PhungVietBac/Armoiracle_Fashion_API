@@ -13,8 +13,16 @@ async function getAnswerById(id) {
     .single();
   return data;
 }
+async function getStyleIdsByAnswer(idans) {
+  const { data } = await supabase
+    .from("ans_styles")
+    .select("idstyle")
+    .eq("idans", idans);
+  return data.map((item) => item.idstyle);
+}
 
 module.exports = {
   getAnswers,
   getAnswerById,
+  getStyleIdsByAnswer,
 };

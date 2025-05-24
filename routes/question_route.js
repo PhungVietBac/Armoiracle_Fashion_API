@@ -36,4 +36,27 @@ const ctrl = require("../controllers/question_ctrl");
  */
 router.get("/", ctrl.getQuestions);
 
+/**
+ * @swagger
+ * /questions/{id}/answers:
+ *   get:
+ *     summary: Lấy câu trả lời theo ID câu hỏi
+ *     tags: [Questions]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Danh sách câu trả lời cho câu hỏi
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Answer'
+ */
+router.get("/:id/answers", ctrl.getAnswersByQuestion);
 module.exports = router;

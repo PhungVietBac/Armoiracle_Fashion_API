@@ -36,4 +36,27 @@ const ctrl = require("../controllers/answer_ctrl");
  */
 router.get("/", ctrl.getAnswers);
 
+/**
+ * @swagger
+ * /answers/{id}/styles:
+ *   get:
+ *     summary: Lấy phong cách theo ID câu trả lời
+ *     tags: [Answers]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Danh sách phong cách cho câu trả lời
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Style'
+ */
+router.get("/:id/styles", ctrl.getStylesByAnswer);
 module.exports = router;

@@ -37,9 +37,18 @@ async function createStyle(style) {
   return data;
 }
 
+async function getClothesIdsByStyle(idstyle) {
+  const { data } = await supabase
+    .from("clothes_styles")
+    .select("idcloth")
+    .eq("idstyle", idstyle);
+  return data.map((item) => item.idcloth);
+}
+
 module.exports = {
   listStyles,
   getStyleById,
   createStyle,
   getStyleByName,
+  getClothesIdsByStyle,
 };

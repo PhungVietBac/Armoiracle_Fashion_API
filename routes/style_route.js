@@ -121,4 +121,29 @@ router.get("/name/:name", ctrl.getStyleByName);
  */
 router.post("/", ctrl.createStyle);
 
+/**
+ * @swagger
+ * /styles/{id}/clothes:
+ *   get:
+ *     summary: Lấy danh sách quần áo theo phong cách
+ *     tags: [Styles]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID của phong cách
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Danh sách quần áo theo phong cách
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Clothes'
+*/
+router.get("/:id/clothes", ctrl.getAllClothesByStyle);
+
 module.exports = router;
