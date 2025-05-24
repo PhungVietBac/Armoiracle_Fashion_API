@@ -1,8 +1,6 @@
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
-require("dotenv").config();
 
-const PORT = process.env.PORT || 4000;
 const options = {
   definition: {
     openapi: "3.0.0",
@@ -12,7 +10,7 @@ const options = {
     },
     servers: [
       {
-        url: `https://armoiracle-fashion-api.onrender.com:${PORT}`, // Đường dẫn đến API
+        url: "https://armoiracle-fashion-api.onrender.com", // Đường dẫn đến API
       },
     ],
   },
