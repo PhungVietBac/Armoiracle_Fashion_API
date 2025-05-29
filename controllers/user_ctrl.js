@@ -1,9 +1,13 @@
 const userService = require("../services/user_service");
 const styleService = require("../services/style_service");
+const bcrypt = require("bcrypt");
 
 async function getUsers(req, res) {
   try {
     const users = await userService.listUsers();
+    users.forEach((user) => {
+      delete user.password;
+    });
     res.json(users);
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -22,6 +26,7 @@ async function getUserBy(req, res) {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
+    delete user.password;
     res.json(user);
   } catch (e) {
     res.status(500).json({ error: e.message });
@@ -70,13 +75,17 @@ async function getUsersBy(req, res) {
       }
     }
 
-    const user = await userService.getUsersBy(field, value);
+    const users = await userService.getUsersBy(field, value);
 
-    if (user.length === 0) {
+    if (users.length === 0) {
       return res.status(404).json({ error: "Users not found" });
     }
 
-    res.json(user);
+    users.forEach((user) => {
+      delete user.password;
+    });
+
+    res.json(users);
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
@@ -86,17 +95,18 @@ async function createUser(req, res) {
   try {
     const userCreate = req.body;
 
-    if (await userService.getUserBy("email", userCreate["email"])) {
+    const [emailExists, usernameExists, phoneExists] = await Promise.all([
+      userService.getUserBy("email", userCreate.email),
+      userService.getUserBy("username", userCreate.username),
+      userService.getUserBy("phone", userCreate.phone),
+    ]);
+
+    if (emailExists)
       return res.status(409).json({ error: "Email already exists" });
-    }
-
-    if (await userService.getUserBy("username", userCreate["username"])) {
+    if (usernameExists)
       return res.status(409).json({ error: "Username already exists" });
-    }
-
-    if (await userService.getUserBy("phone", userCreate["phone"])) {
+    if (phoneExists)
       return res.status(409).json({ error: "Phone number already exists" });
-    }
 
     const user = await userService.addUser(userCreate);
     res.status(201).json(user);
@@ -209,11 +219,13 @@ async function logIn(req, res) {
       return res.status(404).json({ error: "User not found" });
     }
 
-    if (user.password !== password) {
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
       return res.status(401).json({ error: "Invalid password" });
     }
+    delete user.password;
 
-    res.json({ message: "Login successful", user });
+    res.json(user);
   } catch (e) {
     res.status(500).json({ error: e.message });
   }

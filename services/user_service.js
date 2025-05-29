@@ -67,9 +67,9 @@ async function addUser(userCreate) {
   const db_user = {
     iduser,
     zodiac: getZodiacIndex(userCreate["birthday"]),
-    password: await bcrypt.hash(userCreate["password"], saltRounds),
     theme: 0,
     ...userCreate,
+    password: await bcrypt.hash(userCreate["password"], saltRounds),
   };
 
   const { data } = await supabase.from("users").insert(db_user).select();

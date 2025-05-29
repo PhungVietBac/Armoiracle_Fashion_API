@@ -11,7 +11,7 @@ const options = {
     servers: [
       {
         url: "https://armoiracle-fashion-api.onrender.com", // Đường dẫn đến API
-        //url: "http://localhost:4000", // Đường dẫn đến API trong môi trường phát triển
+        // url: "http://localhost:4000", // Đường dẫn đến API trong môi trường phát triển
       },
     ],
   },

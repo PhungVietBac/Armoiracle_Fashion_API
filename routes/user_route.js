@@ -282,9 +282,9 @@ router.get("/:id/styles", ctrl.getStylesByUser);
  *               password:
  *                 type: string
  *                 required: true
- *      responses:
- *        200:
- *          description: Đăng nhập thành công
+ *     responses:
+ *       200:
+ *         description: Đăng nhập thành công
  */
 router.post("/login", ctrl.logIn);
 
