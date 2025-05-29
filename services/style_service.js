@@ -45,10 +45,19 @@ async function getClothesIdsByStyle(idstyle) {
   return data.map((item) => item.idcloth);
 }
 
+async function getPersonalitiesByStyle(idstyle) {
+  const { data } = await supabase
+    .from("pers_styles")
+    .select("idpers")
+    .eq("idstyle", idstyle);
+  return data.map((item) => item.idpers);
+}
+
 module.exports = {
   listStyles,
   getStyleById,
   createStyle,
   getStyleByName,
   getClothesIdsByStyle,
+  getPersonalitiesByStyle,
 };

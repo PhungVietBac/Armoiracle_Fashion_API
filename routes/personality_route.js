@@ -1,6 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const ctrl = require('../controllers/personality_ctrl');
+const ctrl = require("../controllers/personality_ctrl");
 
 /**
  * @swagger
@@ -12,14 +12,7 @@ const ctrl = require('../controllers/personality_ctrl');
  *     Personality:
  *       type: object
  *       properties:
- *         idpersonality:
- *           type: string
- *         name:
- *           type: string
- *     Style:
- *       type: object
- *       properties:
- *         idstyle:
+ *         idpers:
  *           type: string
  *         name:
  *           type: string
@@ -41,7 +34,7 @@ const ctrl = require('../controllers/personality_ctrl');
  *               items:
  *                 $ref: '#/components/schemas/Personality'
  */
-router.get("/", ctrl.getAllPersonalities);
+router.get("/", ctrl.getPersonalities);
 
 /**
  * @swagger
@@ -66,7 +59,7 @@ router.get("/", ctrl.getAllPersonalities);
  *       404:
  *         description: Không tìm thấy personality
  */
-router.get('/:id', ctrl.getPersonalityById);
+router.get("/:id", ctrl.getPersonalityById);
 
 /**
  * @swagger
@@ -91,24 +84,8 @@ router.get('/:id', ctrl.getPersonalityById);
  *               items:
  *                 $ref: '#/components/schemas/Style'
  */
-router.get('/:id/styles', ctrl.getStylesByPersonalityId);
+router.get("/:id/styles", ctrl.getStylesByPersonality);
 
-/**
- * @swagger
- * /personalities/styles:
- *   get:
- *     summary: Lấy toàn bộ styles
- *     tags: [Personality]
- *     responses:
- *       200:
- *         description: Danh sách style
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Style'
- */
-router.get('/styles/all', ctrl.getAllStyles);
+router.get("/name/:name/styles", ctrl.getStylesByPersonalityName);
 
 module.exports = router;

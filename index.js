@@ -6,6 +6,7 @@ const questionRoutes = require("./routes/question_route");
 const answerRoutes = require("./routes/answer_route");
 const clothesRoutes = require("./routes/clothes_route");
 const clothesStyleRoutes = require("./routes/clothes_style_route");
+const personalityRoutes = require("./routes/personality_route");
 const { swaggerUi, specs } = require("./swagger");
 require("dotenv").config();
 
@@ -20,6 +21,7 @@ app.use("/questions", questionRoutes);
 app.use("/answers", answerRoutes);
 app.use("/clothes", clothesRoutes);
 app.use("/clothes_style", clothesStyleRoutes);
+app.use("/personalities", personalityRoutes);
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {

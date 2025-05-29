@@ -288,4 +288,6 @@ router.get("/:id/styles", ctrl.getStylesByUser);
  */
 router.post("/login", ctrl.logIn);
 
+router.get("/:id/clothes", ctrl.getAllClothesByUser);
+
 module.exports = router;
