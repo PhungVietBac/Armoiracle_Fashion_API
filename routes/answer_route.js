@@ -59,4 +59,28 @@ router.get("/", ctrl.getAnswers);
  *                 $ref: '#/components/schemas/Style'
  */
 router.get("/:id/styles", ctrl.getStylesByAnswer);
+
+/**
+ * @swagger
+ * /answers/{id}/personalities:
+ *   get:
+ *     summary: Lấy tính cách theo ID câu trả lời
+ *     tags: [Answers]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Danh sách tính cách của câu trả lời
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Personality'
+ */
+router.get("/:id/personalities", ctrl.getPersonalityIdsByAnswer);
 module.exports = router;

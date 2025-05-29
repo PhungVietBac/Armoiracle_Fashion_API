@@ -1,6 +1,6 @@
 const styleService = require("../services/style_service");
 const clothesService = require("../services/clothes_service");
-const { get } = require("express/lib/response");
+
 async function getStyles(req, res) {
   try {
     const styles = await styleService.listStyles();
@@ -60,7 +60,7 @@ async function getAllClothesByStyle(req, res) {
     }
 
     const clothesIds = await styleService.getClothesIdsByStyle(id);
-    if( clothesIds.length === 0) {
+    if (clothesIds.length === 0) {
       return res.status(404).json({ error: "No clothes found for this style" });
     }
 
@@ -82,5 +82,5 @@ module.exports = {
   getStyleById,
   createStyle,
   getStyleByName,
-  getAllClothesByStyle
+  getAllClothesByStyle,
 };

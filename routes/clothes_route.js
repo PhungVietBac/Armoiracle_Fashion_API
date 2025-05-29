@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const ctrl = require("../controllers/clothes_ctrl");
+const multer = require("multer");
+const upload = multer();
 
 /**
  * @swagger
@@ -90,7 +92,7 @@ router.get("/", ctrl.getAllClothes);
  */
 router.get("/:id", ctrl.getClothesbyID);
 
-/** 
+/**
  * @swagger
  * /clothes/by/{field}:
  *   get:
@@ -165,7 +167,11 @@ router.post("/", ctrl.createClothes);
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/ClothesStyle'
- */                 
+ */
 router.get("/:id/styles", ctrl.getStylesByClothes);
+
+router.patch("/:id/picture", upload.single("file"), ctrl.upload);
+
+router.delete("/:id", ctrl.deleteClothes);
 
 module.exports = router;

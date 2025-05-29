@@ -1,5 +1,6 @@
 const userService = require("../services/user_service");
 const styleService = require("../services/style_service");
+const clothesService = require("../services/clothes_service");
 const bcrypt = require("bcrypt");
 
 async function getUsers(req, res) {
@@ -128,8 +129,9 @@ async function updateAvatar(req, res) {
     await userService.deleteOldAvatar(user.avatar);
     const avatarUrl = await userService.uploadAvatar(file);
     user = await userService.updateAvatar(id, avatarUrl);
+    delete user.password;
 
-    res.json({ message: "Avatar updated", avatar: avatarUrl, user });
+    res.json(user);
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
@@ -231,6 +233,59 @@ async function logIn(req, res) {
   }
 }
 
+async function getRecommendClothesByUser(req, res) {
+  const { id } = req.params;
+  try {
+    const user = await userService.getUserBy("iduser", id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const clothesIds = await userService.getRecommendClothesIdsByUser(id);
+    if (clothesIds.length === 0) {
+      return res
+        .status(404)
+        .json({ error: "No recommend clothes found for this user" });
+    }
+
+    const allClothes = await Promise.all(
+      clothesIds.map(async (idcloth) => {
+        const clothes = await clothesService.getClothesbyID(idcloth);
+        return clothes;
+      })
+    );
+    res.json(allClothes);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+}
+
+async function getAllClothesByUser(req, res) {
+  const { id } = req.params;
+  try {
+    const user = await userService.getUserBy("iduser", id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const clothesIds = await userService.getClothesIdsByUser(id);
+    if (clothesIds.length === 0) {
+      return res.status(404).json({ error: "No clothes found for this user" });
+    }
+
+    const allClothes = await Promise.all(
+      clothesIds.map(async (idcloth) => {
+        const clothes = await clothesService.getClothesbyID(idcloth);
+        return clothes;
+      })
+    );
+
+    res.json(allClothes);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+}
+
 module.exports = {
   getUsers,
   createUser,
@@ -241,4 +296,6 @@ module.exports = {
   deleteUser,
   getStylesByUser,
   logIn,
+  getRecommendClothesByUser,
+  getAllClothesByUser,
 };

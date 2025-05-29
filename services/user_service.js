@@ -2,6 +2,7 @@ const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const supabase = require("../supabaseClient");
+const styleService = require("../services/style_service");
 
 async function listUsers() {
   const { data } = await supabase.from("users").select("*");
@@ -133,6 +134,29 @@ async function getStyleIdsByUser(iduser) {
   return data.map((item) => item.idstyle);
 }
 
+async function getRecommendClothesIdsByUser(iduser) {
+  const styleIds = await getStyleIdsByUser(iduser);
+  console.log(styleIds);
+  const clothesIds = await Promise.all(
+    styleIds.map(async (styleId) => {
+      const allClothes = await styleService.getClothesIdsByStyle(styleId);
+      return allClothes;
+    })
+  );
+
+  const uniqueClothesIds = [...new Set(clothesIds.flat())];
+  return uniqueClothesIds;
+}
+
+async function getClothesIdsByUser(iduser) {
+  const { data } = await supabase
+    .from("user_clothes")
+    .select("idcloth")
+    .eq("iduser", iduser);
+
+  return data.map((item) => item.idcloth);
+}
+
 module.exports = {
   listUsers,
   addUser,
@@ -144,4 +168,6 @@ module.exports = {
   deleteOldAvatar,
   uploadAvatar,
   getStyleIdsByUser,
+  getClothesIdsByUser,
+  getRecommendClothesIdsByUser,
 };
