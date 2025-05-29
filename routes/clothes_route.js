@@ -26,6 +26,8 @@ const ctrl = require("../controllers/clothes_ctrl");
  *           type: string
  *         weather:
  *           type: string
+ *         type:
+ *           type: string
  *     ClothesCreate:
  *       type: object
  *       properties:
@@ -42,6 +44,8 @@ const ctrl = require("../controllers/clothes_ctrl");
  *         brand:
  *           type: string
  *         weather:
+ *           type: string
+ *         type:
  *           type: string
  */
 
@@ -98,7 +102,7 @@ router.get("/:id", ctrl.getClothesbyID);
  *         required: true
  *         schema:
  *           type: string
- *         description: Trường để lọc quần áo (name, size, color, material, brand, weather)
+ *         description: Trường để lọc quần áo (name, size, color, material, brand, weather, type)
  *       - in: query
  *         name: value
  *         required: true

@@ -27,7 +27,7 @@ async function getClothesBy(req, res) {
     try {
         const {field} = req.params;
         const {value} = req.query;
-        if (!["name", "size", "color", "material", "brand", "weather"].includes(field)){
+        if (!["name", "size", "color", "material", "brand", "weather", "type"].includes(field)){
             return res.status(400).json({error: "Invalid field"});
         }
         
