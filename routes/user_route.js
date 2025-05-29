@@ -263,4 +263,29 @@ router.delete("/:id", ctrl.deleteUser);
  */
 router.get("/:id/styles", ctrl.getStylesByUser);
 
+/**
+ * @swagger
+ * /users/login:
+ *   post:
+ *     summary: Đăng nhập người dùng
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 required: true
+ *               password:
+ *                 type: string
+ *                 required: true
+ *      responses:
+ *        200:
+ *          description: Đăng nhập thành công
+ */
+router.post("/login", ctrl.logIn);
+
 module.exports = router;

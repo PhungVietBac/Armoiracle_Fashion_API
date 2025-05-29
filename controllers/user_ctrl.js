@@ -201,6 +201,24 @@ async function getStylesByUser(req, res) {
   }
 }
 
+async function logIn(req, res) {
+  const { username, password } = req.body;
+  try {
+    const user = await userService.getUserBy("username", username);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (user.password !== password) {
+      return res.status(401).json({ error: "Invalid password" });
+    }
+
+    res.json({ message: "Login successful", user });
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+}
+
 module.exports = {
   getUsers,
   createUser,
@@ -210,4 +228,5 @@ module.exports = {
   updateAvatar,
   deleteUser,
   getStylesByUser,
+  logIn,
 };
